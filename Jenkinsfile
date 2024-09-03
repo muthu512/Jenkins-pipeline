@@ -1,25 +1,19 @@
-pipeline {
-    agent any
-
-    stages {
-        stage('Build') {
-            steps {
-                echo 'Building...'
+ stages {
+        stage('Build') { 
+            steps { 
+                sh 'make' 
             }
         }
-
-        stage('Test') {
+        stage('Test'){
             steps {
-                echo 'Testing...'
-                sh 'python3 -m unittest discover -s tests'
+                sh 'make check'
+                junit 'reports/**/*.xml' 
             }
         }
-
         stage('Deploy') {
             steps {
-                echo 'Deploying...'
+                sh 'make publish'
             }
         }
     }
 }
-
